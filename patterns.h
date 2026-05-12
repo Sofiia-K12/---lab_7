@@ -1,8 +1,7 @@
 #pragma once
+#include <iostream>
 
-#include <stdexcept>
-
-
+using namespace std;
 
 class FlightSystem {
 public:
@@ -24,15 +23,35 @@ public:
     int SecurityCheck();
 };
 
+class IAirportFacade {
+public:
+    virtual int FullTrip(int baggageWeight) = 0;
+    virtual int QuickTrip() = 0;
+};
 
-class AirportFacade {
+class AirportFacade : public IAirportFacade {
 private:
-    FlightSystem flightSystem;
-    CheckInSystem checkInSystem;
-    BaggageSystem baggageSystem;
-    SecuritySystem securitySystem;
+    FlightSystem* flight;
+    CheckInSystem* checkin;
+    BaggageSystem* baggage;
+    SecuritySystem* security;
 
 public:
-    int FullTrip(int baggageWeight);
-    int QuickTrip();
+    AirportFacade();
+
+    ~AirportFacade();   
+
+    int FullTrip(int baggageWeight) override;
+
+    int QuickTrip() override;
+};
+
+class Client {
+private:
+    IAirportFacade* facade;
+
+public:
+    Client(IAirportFacade* facade);
+
+    void Start();
 };

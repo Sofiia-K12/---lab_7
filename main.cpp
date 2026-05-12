@@ -1,17 +1,13 @@
-#include <iostream>
 #include "patterns.h"
-
-using namespace std;
 
 int main() {
 
-    AirportFacade facade;
+    IAirportFacade* facade =
+        new AirportFacade();
 
-    int price1 = facade.FullTrip(25);
-    cout << "Full trip price: " << price1 << endl;
+    Client client(facade);
 
-    int price2 = facade.QuickTrip();
-    cout << "Quick trip price: " << price2 << endl;
+    client.Start();
 
     return 0;
 }
